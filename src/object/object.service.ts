@@ -99,6 +99,11 @@ export class ObjectService {
       );
     }
 
+    await this.objectRepository.delete({
+      bucket: { id: bucket.id },
+      key,
+    });
+
     await fs.unlink(path.join(this.uploadPath, bucket.name, key));
 
     return object;
