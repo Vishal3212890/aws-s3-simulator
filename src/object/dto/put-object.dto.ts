@@ -1,4 +1,6 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class PutObjectDto {
-  bucket: string;
+  @IsNotEmpty()
   key: string;
 }

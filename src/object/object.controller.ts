@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -27,8 +28,9 @@ export class ObjectController {
     @Body() { key }: PutObjectDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    if (!file) throw new BadRequestException('File is required');
     const object = await this.objectService.putObject(bucket, key, file);
-    return { message: 'Object Created', object };
+    return { message: 'Object Uploaded', object };
   }
 
   @Get('/')
@@ -48,6 +50,7 @@ export class ObjectController {
     res.set({
       'Content-Type': data.mimetype,
     });
+
     return new StreamableFile(createReadStream(path));
   }
 
